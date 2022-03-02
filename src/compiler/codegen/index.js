@@ -2,7 +2,7 @@
 
 import { genHandlers } from './events'
 import baseDirectives from '../directives/index'
-import { camelize, no, extend } from 'shared/util'
+import { camelize, no, extend } from '../packages/shared/util'
 import { baseWarn, pluckModuleFunction } from '../helpers'
 import { emptySlotScopeToken } from '../parser/index'
 
@@ -586,9 +586,7 @@ function genProps (props: Array<ASTAttr>): string {
   let dynamicProps = ``
   for (let i = 0; i < props.length; i++) {
     const prop = props[i]
-    const value = __WEEX__
-      ? generateValue(prop.value)
-      : transformSpecialNewlines(prop.value)
+    const value = transformSpecialNewlines(prop.value)
     if (prop.dynamic) {
       dynamicProps += `${prop.name},${value},`
     } else {
@@ -601,14 +599,6 @@ function genProps (props: Array<ASTAttr>): string {
   } else {
     return staticProps
   }
-}
-
-/* istanbul ignore next */
-function generateValue (value) {
-  if (typeof value === 'string') {
-    return transformSpecialNewlines(value)
-  }
-  return JSON.stringify(value)
 }
 
 // #3895, #4268

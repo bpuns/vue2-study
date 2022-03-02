@@ -1,6 +1,6 @@
 /* @flow */
 
-import { cached } from 'shared/util'
+import { cached } from '../packages/shared/util'
 import { parseFilters } from './filter-parser'
 
 const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g

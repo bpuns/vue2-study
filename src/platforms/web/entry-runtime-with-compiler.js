@@ -1,8 +1,5 @@
 /* @flow */
-
-import config from 'core/config'
 import { warn, cached } from 'core/util/index'
-import { mark, measure } from 'core/util/perf'
 
 import Vue from './runtime/index'
 import { query } from './util/index'
@@ -37,31 +34,16 @@ Vue.prototype.$mount = function (
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
           template = idToTemplate(template)
-          /* istanbul ignore if */
-          if (process.env.NODE_ENV !== 'production' && !template) {
-            warn(
-              `Template element not found or is empty: ${options.template}`,
-              this
-            )
-          }
         }
       } else if (template.nodeType) {
         template = template.innerHTML
       } else {
-        if (process.env.NODE_ENV !== 'production') {
-          warn('invalid template option:' + template, this)
-        }
         return this
       }
     } else if (el) {
       template = getOuterHTML(el)
     }
     if (template) {
-      /* istanbul ignore if */
-      if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        mark('compile')
-      }
-
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
@@ -71,12 +53,6 @@ Vue.prototype.$mount = function (
       }, this)
       options.render = render
       options.staticRenderFns = staticRenderFns
-
-      /* istanbul ignore if */
-      if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        mark('compile end')
-        measure(`vue ${this._name} compile`, 'compile', 'compile end')
-      }
     }
   }
   return mount.call(this, el, hydrating)

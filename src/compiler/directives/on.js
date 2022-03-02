@@ -1,6 +1,6 @@
 /* @flow */
 
-import { warn } from 'core/util/index'
+import { warn } from '../packages/core/util/index'
 
 export default function on (el: ASTElement, dir: ASTDirective) {
   if (process.env.NODE_ENV !== 'production' && dir.modifiers) {

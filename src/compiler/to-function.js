@@ -1,7 +1,7 @@
 /* @flow */
 
-import { noop, extend } from 'shared/util'
-import { warn as baseWarn, tip } from 'core/util/debug'
+import { noop, extend } from './packages/shared/util'
+import { warn as baseWarn, tip } from './packages/core/util/debug'
 import { generateCodeFrame } from './codeframe'
 
 type CompiledFunctionResult = {

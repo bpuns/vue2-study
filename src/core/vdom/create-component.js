@@ -1,7 +1,6 @@
 /* @flow */
 
 import VNode from './vnode'
-import { resolveConstructorOptions } from 'core/instance/init'
 import { queueActivatedComponent } from 'core/observer/scheduler'
 import { createFunctionalComponent } from './create-functional-component'
 
@@ -27,12 +26,6 @@ import {
   deactivateChildComponent
 } from '../instance/lifecycle'
 
-import {
-  isRecyclableComponent,
-  renderRecyclableComponentTemplate
-} from 'weex/runtime/recycle-list/render-component-template'
-
-// inline hooks to be invoked on component VNodes during patch
 const componentVNodeHooks = {
   init (vnode: VNodeWithData, hydrating: boolean): ?boolean {
     if (
@@ -146,10 +139,6 @@ export function createComponent (
 
   data = data || {}
 
-  // resolve constructor options in case global mixins are applied after
-  // component constructor creation
-  resolveConstructorOptions(Ctor)
-
   // transform component v-model data into props & events
   if (isDef(data.model)) {
     transformModel(Ctor.options, data)
@@ -193,14 +182,6 @@ export function createComponent (
     { Ctor, propsData, listeners, tag, children },
     asyncFactory
   )
-
-  // Weex specific: invoke recycle-list optimized @render function for
-  // extracting cell-slot template.
-  // https://github.com/Hanks10100/weex-native-directive/tree/master/component
-  /* istanbul ignore if */
-  if (__WEEX__ && isRecyclableComponent(vnode)) {
-    return renderRecyclableComponentTemplate(vnode)
-  }
 
   return vnode
 }

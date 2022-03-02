@@ -5,8 +5,7 @@ import { parseHTML } from './html-parser'
 import { parseText } from './text-parser'
 import { parseFilters } from './filter-parser'
 import { genAssignmentCode } from '../directives/model'
-import { extend, cached, no, camelize, hyphenate } from 'shared/util'
-import { isIE, isEdge, isServerRendering } from 'core/util/env'
+import { extend, cached, no, camelize, hyphenate } from '../packages/shared/util'
 
 import {
   addProp,
@@ -80,6 +79,12 @@ export function parse (
   template: string,
   options: CompilerOptions
 ): ASTElement | void {
+
+  console.log(options)
+  console.log(template)
+
+  debugger
+
   warn = options.warn || baseWarn
 
   platformIsPreTag = options.isPreTag || no
@@ -219,12 +224,6 @@ export function parse (
       // inherit parent ns if there is one
       const ns = (currentParent && currentParent.ns) || platformGetTagNamespace(tag)
 
-      // handle IE svg bug
-      /* istanbul ignore if */
-      if (isIE && ns === 'svg') {
-        attrs = guardIESVGBug(attrs)
-      }
-
       let element: ASTElement = createASTElement(tag, attrs, currentParent)
       if (ns) {
         element.ns = ns
@@ -253,7 +252,7 @@ export function parse (
         })
       }
 
-      if (isForbiddenTag(element) && !isServerRendering()) {
+      if (isForbiddenTag(element)) {
         element.forbidden = true
         process.env.NODE_ENV !== 'production' && warn(
           'Templates should only be responsible for mapping the state to the ' +
@@ -329,14 +328,7 @@ export function parse (
         }
         return
       }
-      // IE textarea placeholder bug
-      /* istanbul ignore if */
-      if (isIE &&
-        currentParent.tag === 'textarea' &&
-        currentParent.attrsMap.placeholder === text
-      ) {
-        return
-      }
+
       const children = currentParent.children
       if (inPre || text.trim()) {
         text = isTextTag(currentParent) ? text : decodeHTMLCached(text)
@@ -400,6 +392,9 @@ export function parse (
       }
     }
   })
+
+  console.log(JSON.stringify(root))
+
   return root
 }
 
@@ -921,7 +916,7 @@ function makeAttrsMap (attrs: Array<Object>): Object {
   for (let i = 0, l = attrs.length; i < l; i++) {
     if (
       process.env.NODE_ENV !== 'production' &&
-      map[attrs[i].name] && !isIE && !isEdge
+      map[attrs[i].name]
     ) {
       warn('duplicate attribute: ' + attrs[i].name, attrs[i])
     }
@@ -977,3 +972,4 @@ function checkForAliasModel (el, value) {
     _el = _el.parent
   }
 }
+

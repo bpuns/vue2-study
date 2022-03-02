@@ -1,17 +1,6 @@
-/**
- * Not type-checking this file because it's mostly vendor code.
- */
-
-/*!
- * HTML Parser By John Resig (ejohn.org)
- * Modified by Juriy "kangax" Zaytsev
- * Original code by Erik Arvidsson (MPL-1.1 OR Apache-2.0 OR GPL-2.0-or-later)
- * http://erik.eae.net/simplehtmlparser/simplehtmlparser.js
- */
-
-import { makeMap, no } from 'shared/util'
-import { isNonPhrasingTag } from 'web/compiler/util'
-import { unicodeRegExp } from 'core/util/lang'
+import { makeMap, no } from '../packages/shared/util'
+import { isNonPhrasingTag } from '../packages/web/compiler/util'
+import { unicodeRegExp } from '../packages/core/util/lang'
 
 // Regular Expressions for parsing tags and attributes
 const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/

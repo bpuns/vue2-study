@@ -1,6 +1,6 @@
 /* @flow */
 
-import { emptyObject } from 'shared/util'
+import { emptyObject } from './packages/shared/util'
 import { parseFilters } from './parser/filter-parser'
 
 type Range = { start?: number, end?: number };
