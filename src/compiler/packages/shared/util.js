@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 
 export const emptyObject = Object.freeze({})
 
@@ -7,11 +7,11 @@ export const emptyObject = Object.freeze({})
  * is in that map.
  */
 export function makeMap(
-  str: string,
-  expectsLowerCase?: boolean
-): (key: string) => true | void {
+  str,
+  expectsLowerCase
+) {
   const map = Object.create(null)
-  const list: Array<string> = str.split(',')
+  const list = str.split(',')
   for (let i = 0; i < list.length; i++) {
     map[list[i]] = true
   }
@@ -25,12 +25,12 @@ export function makeMap(
  * Stubbing args to make Flow happy without leaving useless transpiled code
  * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
  */
-export function noop(a?: any, b?: any, c?: any) { }
+export function noop(a, b, c) { }
 
 /**
  * Mix properties into target object.
  */
-export function extend(to: Object, _from: ?Object): Object {
+export function extend(to, _from) {
   for (const key in _from) {
     to[key] = _from[key]
   }
@@ -45,24 +45,24 @@ export const isBuiltInTag = makeMap('slot,component', true)
 /**
  * Create a cached version of a pure function.
  */
-export function cached<F: Function>(fn: F): F {
+export function cached(fn) {
   const cache = Object.create(null)
-  return (function cachedFn(str: string) {
+  return (function cachedFn(str) {
     const hit = cache[str]
     return hit || (cache[str] = fn(str))
-  }: any)
+  })
 }
 
 /**
  * Always return false.
  */
-export const no = (a?: any, b?: any, c?: any) => false
+export const no = (a, b, c) => false
 
 /**
  * Camelize a hyphen-delimited string.
  */
 const camelizeRE = /-(\w)/g
-export const camelize = cached((str: string): string => {
+export const camelize = cached((str) => {
   return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
 })
 
@@ -70,6 +70,6 @@ export const camelize = cached((str: string): string => {
  * Hyphenate a camelCase string.
  */
 const hyphenateRE = /\B([A-Z])/g
-export const hyphenate = cached((str: string): string => {
+export const hyphenate = cached((str) => {
   return str.replace(hyphenateRE, '-$1').toLowerCase()
 })

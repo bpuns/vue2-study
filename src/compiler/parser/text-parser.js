@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 
 import { cached } from '../packages/shared/util'
 import { parseFilters } from './filter-parser'
@@ -12,15 +12,15 @@ const buildRegex = cached(delimiters => {
   return new RegExp(open + '((?:.|\\n)+?)' + close, 'g')
 })
 
-type TextParseResult = {
-  expression: string,
-  tokens: Array<string | { '@binding': string }>
-}
 
-export function parseText (
-  text: string,
-  delimiters?: [string, string]
-): TextParseResult | void {
+
+
+
+
+export function parseText(
+  text,
+  delimiters
+) {
   const tagRE = delimiters ? buildRegex(delimiters) : defaultTagRE
   if (!tagRE.test(text)) {
     return

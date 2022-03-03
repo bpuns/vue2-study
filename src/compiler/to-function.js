@@ -1,15 +1,9 @@
-/* @flow */
-
 import { noop, extend } from './packages/shared/util'
 import { warn as baseWarn, tip } from './packages/core/util/debug'
 import { generateCodeFrame } from './codeframe'
 
-type CompiledFunctionResult = {
-  render: Function;
-  staticRenderFns: Array<Function>;
-};
 
-function createFunction (code, errors) {
+function createFunction(code, errors) {
   try {
     return new Function(code)
   } catch (err) {
@@ -18,14 +12,14 @@ function createFunction (code, errors) {
   }
 }
 
-export function createCompileToFunctionFn (compile: Function): Function {
+export function createCompileToFunctionFn(compile) {
   const cache = Object.create(null)
 
-  return function compileToFunctions (
-    template: string,
-    options?: CompilerOptions,
-    vm?: Component
-  ): CompiledFunctionResult {
+  return function compileToFunctions(
+    template,
+    options,
+    vm
+  ) {
     options = extend({}, options)
     const warn = options.warn || baseWarn
     delete options.warn

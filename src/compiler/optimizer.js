@@ -1,5 +1,3 @@
-/* @flow */
-
 import { makeMap, isBuiltInTag, cached, no } from './packages/shared/util'
 
 let isStaticKey
@@ -18,7 +16,7 @@ const genStaticKeysCached = cached(genStaticKeys)
  *    create fresh nodes for them on each re-render;
  * 2. Completely skip them in the patching process.
  */
-export function optimize (root: ?ASTElement, options: CompilerOptions) {
+export function optimize(root, options) {
   if (!root) return
   isStaticKey = genStaticKeysCached(options.staticKeys || '')
   isPlatformReservedTag = options.isReservedTag || no
@@ -28,14 +26,14 @@ export function optimize (root: ?ASTElement, options: CompilerOptions) {
   markStaticRoots(root, false)
 }
 
-function genStaticKeys (keys: string): Function {
+function genStaticKeys(keys) {
   return makeMap(
     'type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap' +
     (keys ? ',' + keys : '')
   )
 }
 
-function markStatic (node: ASTNode) {
+function markStatic(node) {
   node.static = isStatic(node)
   if (node.type === 1) {
     // do not make component slot content static. this avoids
@@ -67,7 +65,7 @@ function markStatic (node: ASTNode) {
   }
 }
 
-function markStaticRoots (node: ASTNode, isInFor: boolean) {
+function markStaticRoots(node, isInFor) {
   if (node.type === 1) {
     if (node.static || node.once) {
       node.staticInFor = isInFor
@@ -97,7 +95,7 @@ function markStaticRoots (node: ASTNode, isInFor: boolean) {
   }
 }
 
-function isStatic (node: ASTNode): boolean {
+function isStatic(node) {
   if (node.type === 2) { // expression
     return false
   }
@@ -114,7 +112,7 @@ function isStatic (node: ASTNode): boolean {
   ))
 }
 
-function isDirectChildOfTemplateFor (node: ASTElement): boolean {
+function isDirectChildOfTemplateFor(node) {
   while (node.parent) {
     node = node.parent
     if (node.tag !== 'template') {

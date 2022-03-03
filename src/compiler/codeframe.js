@@ -1,12 +1,12 @@
-/* @flow */
+/*       */
 
 const range = 2
 
-export function generateCodeFrame (
-  source: string,
-  start: number = 0,
-  end: number = source.length
-): string {
+export function generateCodeFrame(
+  source,
+  start = 0,
+  end = source.length
+) {
   const lines = source.split(/\r?\n/)
   let count = 0
   const res = []
@@ -36,7 +36,7 @@ export function generateCodeFrame (
   return res.join('\n')
 }
 
-function repeat (str, n) {
+function repeat(str, n) {
   let result = ''
   if (n > 0) {
     while (true) { // eslint-disable-line
